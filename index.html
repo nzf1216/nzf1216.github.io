@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Nuha Zahra Fathima | Software Testing, APIs and Applied AI</title>
+<meta name="description" content="Information Technology undergraduate in Chennai building tested APIs, data-quality controls and explainable AI.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=Newsreader:opsz,wght@6..72,400;6..72,500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#EEF1F5; --panel:#FFFFFF; --ink:#14213D; --muted:#4A5675; --line:#C9D0DE;
+  --pass:#0B7A5F; --pass-bg:#DDF2EB; --flag:#B4440C; --flag-bg:#FBE6D8;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --paper:#0E1424; --panel:#161E33; --ink:#E8ECF6; --muted:#A3AECB; --line:#2A3555;
+    --pass:#4ED1A8; --pass-bg:#10372D; --flag:#F2A06B; --flag-bg:#3D2414;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0E1424; --panel:#161E33; --ink:#E8ECF6; --muted:#A3AECB; --line:#2A3555;
+  --pass:#4ED1A8; --pass-bg:#10372D; --flag:#F2A06B; --flag-bg:#3D2414;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 1.125rem/1.65 Newsreader,Georgia,serif}
+h1,h2,h3,.sans{font-family:"Bricolage Grotesque","Helvetica Neue",Arial,sans-serif}
+a{color:inherit;text-decoration-color:var(--line);text-underline-offset:.2em}
+a:hover{text-decoration-color:var(--ink)}
+:focus-visible{outline:3px solid var(--pass);outline-offset:3px;border-radius:3px}
+.wrap{max-width:62rem;margin:0 auto;padding:0 1.5rem}
+header.top{display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.25rem 0;font-family:"Bricolage Grotesque",sans-serif;font-size:.95rem}
+header.top nav{display:flex;gap:1.25rem;flex-wrap:wrap}
+header.top a{text-decoration:none;color:var(--muted)}
+header.top a:hover{color:var(--ink)}
+.hero{padding:4.5rem 0 3rem}
+.hero h1{font-size:clamp(2.6rem,8vw,5.6rem);line-height:1;letter-spacing:-.03em;margin:0 0 1.5rem;font-weight:700;max-width:14ch}
+.hero p.lede{font-size:clamp(1.2rem,2.4vw,1.5rem);max-width:38rem;margin:0 0 2rem;color:var(--muted)}
+.hero p.lede strong{color:var(--ink);font-weight:500}
+.links{display:flex;flex-wrap:wrap;gap:.75rem}
+.btn{font-family:"Bricolage Grotesque",sans-serif;font-weight:500;font-size:1rem;padding:.7rem 1.2rem;border:1.5px solid var(--ink);border-radius:6px;text-decoration:none;color:var(--ink);background:transparent}
+.btn.fill{background:var(--ink);color:var(--paper)}
+.btn:hover{background:var(--ink);color:var(--paper)}
+.btn.fill:hover{background:transparent;color:var(--ink)}
+
+/* the one memorable thing: the live validation rule */
+.rule{margin:1rem 0 4rem;background:var(--panel);border:1.5px solid var(--ink);border-radius:10px;display:grid;grid-template-columns:1fr 1fr;overflow:hidden}
+.rule .l,.rule .r{padding:1.75rem}
+.rule .l{border-right:1.5px solid var(--ink)}
+.rule h2{font-size:1.25rem;margin:0 0 .5rem}
+.rule p{margin:0 0 1.25rem;color:var(--muted);font-size:1.05rem}
+.rule label{font-family:"Bricolage Grotesque",sans-serif;font-weight:500;display:flex;justify-content:space-between;margin-bottom:.5rem}
+.rule input[type=range]{width:100%;accent-color:var(--pass);height:2rem}
+.result{font-family:"Bricolage Grotesque",sans-serif;display:flex;flex-direction:column;justify-content:center;gap:.9rem}
+.verdict{font-size:1.6rem;font-weight:700;padding:.9rem 1.1rem;border-radius:8px;transition:background .25s,color .25s}
+.verdict.pass{background:var(--pass-bg);color:var(--pass)}
+.verdict.flag{background:var(--flag-bg);color:var(--flag)}
+.result code{font:500 .9rem/1.5 ui-monospace,Menlo,Consolas,monospace;color:var(--muted)}
+.result .payload{margin:0;padding:.8rem 1rem;border:1px dashed var(--line);border-radius:6px;white-space:pre-wrap;color:var(--ink)}
+
+section{padding:3rem 0;border-top:1.5px solid var(--line)}
+section>.wrap>h2{font-size:clamp(1.8rem,4vw,2.5rem);letter-spacing:-.02em;margin:0 0 1.75rem}
+.case{display:grid;grid-template-columns:15rem 1fr;gap:2rem;padding:1.75rem 0;border-top:1px solid var(--line)}
+.case:first-of-type{border-top:0;padding-top:0}
+.case h3{font-size:1.45rem;margin:0 0 .5rem;line-height:1.15}
+.case .stack{font:500 .85rem/1.5 "Bricolage Grotesque",sans-serif;color:var(--muted)}
+.case ul{margin:0;padding-left:1.1rem}
+.case li{margin-bottom:.55rem;max-width:42rem}
+.nums{display:flex;flex-wrap:wrap;gap:.6rem;margin:0 0 1rem;padding:0;list-style:none}
+.nums li{margin:0;font-family:"Bricolage Grotesque",sans-serif;font-weight:500;font-size:.95rem;border:1.5px solid var(--pass);color:var(--pass);background:var(--pass-bg);padding:.3rem .7rem;border-radius:999px}
+.job{display:grid;grid-template-columns:15rem 1fr;gap:2rem}
+.job .when{font-family:"Bricolage Grotesque",sans-serif;color:var(--muted);font-size:.95rem}
+.job h3{margin:0 0 .15rem;font-size:1.35rem}
+.job .org{color:var(--muted);margin:0 0 1rem}
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(14rem,1fr));gap:1.75rem 2rem}
+.skills h3{font-size:1.05rem;margin:0 0 .35rem}
+.skills p{margin:0;color:var(--muted);font-size:1.02rem}
+.edu{display:grid;grid-template-columns:1fr 1fr;gap:2.5rem}
+.edu h3{margin:0 0 .6rem;font-size:1.2rem}
+.edu ul{margin:0;padding:0;list-style:none}
+.edu li{padding:.45rem 0;border-bottom:1px solid var(--line)}
+.edu li span{color:var(--muted);font-size:.95rem;display:block}
+footer{padding:3.5rem 0 4rem;border-top:1.5px solid var(--ink)}
+footer h2{font-size:clamp(1.8rem,5vw,3rem);letter-spacing:-.02em;margin:0 0 1rem;max-width:20ch}
+footer p{color:var(--muted);max-width:34rem;margin:0 0 1.5rem}
+.small{font-family:"Bricolage Grotesque",sans-serif;font-size:.85rem;color:var(--muted);margin-top:2.5rem}
+
+@media (max-width:760px){
+  .rule{grid-template-columns:1fr}.rule .l{border-right:0;border-bottom:1.5px solid var(--ink)}
+  .case,.job,.edu{grid-template-columns:1fr;gap:.9rem}
+  .hero{padding-top:2.5rem}
+}
+.progress{position:fixed;top:0;left:0;width:100%;height:3px;background:var(--pass);transform:scaleX(0);transform-origin:0 50%;z-index:20}
+header.top nav{align-items:center}
+.tog{font:500 .9rem "Bricolage Grotesque",sans-serif;color:var(--ink);background:none;border:1.5px solid var(--line);border-radius:999px;padding:.3rem .85rem;cursor:pointer;transition:border-color .2s}
+.tog:hover{border-color:var(--ink)}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding-bottom:.12em;margin-bottom:-.12em}
+.w>span{display:inline-block;transform:translateY(105%);animation:up .75s cubic-bezier(.2,.8,.2,1) forwards;animation-delay:calc(var(--i)*90ms)}
+.hero .lede,.hero .links{animation:fade .8s .8s cubic-bezier(.2,.8,.2,1) both}
+@keyframes up{to{transform:none}}
+@keyframes fade{from{opacity:0;transform:translateY(12px)}}
+@keyframes bump{40%{transform:scale(1.04)}}
+@keyframes slide{from{opacity:0;transform:translateY(-6px)}}
+.btn{transition:background .2s,color .2s,transform .2s}
+.btn:hover{transform:translateY(-2px)}
+.track{position:relative}
+.track::after{content:"";position:absolute;left:calc(8px + (100% - 16px)*.75);top:.25rem;bottom:.25rem;width:2px;background:var(--ink);opacity:.45;pointer-events:none}
+.chips{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:.75rem}
+.chips button{font:500 .9rem "Bricolage Grotesque",sans-serif;color:var(--ink);background:transparent;border:1.5px solid var(--line);border-radius:999px;padding:.35rem .8rem;cursor:pointer;transition:border-color .2s,transform .2s}
+.chips button:hover{border-color:var(--ink);transform:translateY(-1px)}
+.verdict.bump{animation:bump .35s}
+.log{list-style:none;margin:0;padding:0;display:grid;gap:.3rem;font:500 .9rem/1.4 ui-monospace,Menlo,Consolas,monospace;color:var(--muted)}
+.log li{animation:slide .3s}
+.log li::before{content:"";display:inline-block;width:.6rem;height:.6rem;border-radius:50%;margin-right:.55rem;background:var(--pass)}
+.log li.flag::before{background:var(--flag)}
+.skills>div{position:relative;border-top:2px solid var(--line);padding-top:.8rem}
+.skills>div::before{content:"";position:absolute;top:-2px;left:0;height:2px;width:0;background:var(--pass);transition:width .45s cubic-bezier(.2,.8,.2,1)}
+.skills>div:hover::before{width:100%}
+.js .rv{opacity:0;transform:translateY(18px);transition:opacity .6s ease,transform .6s cubic-bezier(.2,.8,.2,1)}
+.js .rv.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}.w>span{transform:none}.js .rv{opacity:1;transform:none}}
+</style>
+</head>
+<body>
+<div class="progress" id="prog" aria-hidden="true"></div>
+<div class="wrap">
+  <header class="top">
+    <strong class="sans">Nuha Zahra Fathima</strong>
+    <nav aria-label="Sections"><a href="#projects">Projects</a><a href="#experience">Experience</a><a href="#skills">Skills</a><a href="#contact">Contact</a><button type="button" class="tog" id="tog">Dark mode</button></nav>
+  </header>
+
+  <div class="hero">
+    <h1>I build it, break it, and find out why.</h1>
+    <p class="lede">I'm an Information Technology undergraduate in Chennai (CGPA 9.23/10). I build REST APIs, <strong>test them against expected behavior</strong>, and trace defects to their root cause. I also build explainable computer-vision AI.</p>
+    <div class="links">
+      <a class="btn fill" href="mailto:nuhazahra.nzf@gmail.com">Email me</a>
+      <a class="btn" href="https://github.com/nzf1216">GitHub</a>
+      <a class="btn" href="https://linkedin.com/in/nuha-zahra-fathima-4a6850228">LinkedIn</a>
+    </div>
+  </div>
+
+  <div class="rule" id="demo">
+    <div class="l">
+      <h2>Try a rule from SmartRX</h2>
+      <p>My prescription API flags OCR results below 0.75 confidence for a person to review. Move the slider or pick a sample scan. The line on the slider marks 0.75.</p>
+      <label for="conf"><span>OCR confidence</span><span id="confVal">0.82</span></label>
+      <div class="track"><input id="conf" type="range" min="0" max="1" step="0.01" value="0.82" aria-describedby="verdict"></div>
+      <div class="chips" role="group" aria-label="Sample scans"><button type="button" data-v="0.94">Clear scan</button><button type="button" data-v="0.75">Borderline</button><button type="button" data-v="0.41">Blurry scan</button></div>
+    </div>
+    <div class="r result" aria-live="polite">
+      <div class="verdict pass" id="verdict">Accepted</div>
+      <pre class="payload"><code id="payload"></code></pre>
+      <ol class="log" id="log" aria-label="Recent checks"></ol>
+    </div>
+  </div>
+</div>
+
+<section id="projects">
+  <div class="wrap">
+    <h2>Projects</h2>
+
+    <article class="case">
+      <div>
+        <h3>SmartRX</h3>
+        <div class="stack">Python, FastAPI, MongoDB, Pydantic, Docker, Postman</div>
+      </div>
+      <div>
+        <ul class="nums" aria-label="Key facts"><li><b data-to="9" data-dec="0">9</b> endpoints</li><li>0.75 review threshold</li><li>Docker Compose</li></ul>
+        <ul>
+          <li>Built a 9-endpoint REST API that takes OCR-extracted prescription data and manages structured patient and visit records.</li>
+          <li>Added data-quality controls: duplicate-patient detection by phone, email, or name plus date of birth, and human-review flags for OCR results below 0.75 confidence.</li>
+          <li>Tested every behavior in Postman against expected results, covering successful responses and input-validation failures.</li>
+          <li>Packaged the app with Docker Compose so development and testing environments are repeatable.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case">
+      <div>
+        <h3>CogniView</h3>
+        <div class="stack">Python, PyTorch, OpenCV, MediaPipe, SHAP, Grad-CAM</div>
+      </div>
+      <div>
+        <ul class="nums" aria-label="Key facts"><li><b data-to="3662" data-dec="0">3,662</b> images</li><li><b data-to="81.04" data-dec="2">81.04</b>% accuracy</li><li><b data-to="79.89" data-dec="2">79.89</b>% F1</li><li><b data-to="0.9363" data-dec="4">0.9363</b> macro ROC-AUC</li></ul>
+        <ul>
+          <li>Explainable multimodal AI for research into early Alzheimer's screening. It combines retinal imaging, eye tracking, and pupillary light reflex (PLR) signals.</li>
+          <li>Trained an EfficientNet-B0 retinal classifier, then fed computer-vision eye-tracking and PLR features into a multimodal fusion pipeline.</li>
+          <li>Used SHAP and Grad-CAM to show which image regions and features drive each prediction.</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="case">
+      <div>
+        <h3>Event-driven S3 notification pipeline</h3>
+        <div class="stack">AWS S3, Lambda, SES, IAM, Python. Built during AWS professional training.</div>
+      </div>
+      <div>
+        <ul>
+          <li>A serverless workflow: uploading a file to S3 triggers a Lambda function, which sends an automated email through SES. IAM roles control which services can access what.</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="wrap">
+    <h2>Experience</h2>
+    <div class="job">
+      <div class="when">May to August 2025<br>Remote</div>
+      <div>
+        <h3>GTM Strategist Intern</h3>
+        <p class="org">TechNow Australia, for Cloud Invent</p>
+        <ul>
+          <li>Cross-validated competitor and performance data across SaaS and technology segments, found discrepancies between sources, and kept deadline-driven reports accurate.</li>
+          <li>Analyzed markets, competitors, and customer segments to recommend which groups and opportunities to prioritize, and managed the CRM.</li>
+          <li>Supported campaign planning, product positioning, and outreach, and presented findings to the team.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="wrap">
+    <h2>Skills</h2>
+    <div class="skills">
+      <div><h3>API and validation testing</h3><p>Postman, test case design, defect reporting</p></div>
+      <div><h3>Root cause analysis</h3><p>Discrepancy investigation, technical documentation</p></div>
+      <div><h3>Backend and DevOps</h3><p>FastAPI, MongoDB, Docker, Git and GitHub</p></div>
+      <div><h3>Data and analytics</h3><p>SQL, Power BI, Python (pandas)</p></div>
+      <div><h3>Data validation</h3><p>Reconciliation, data cleaning, ETL fundamentals</p></div>
+      <div><h3>AI and machine learning</h3><p>PyTorch, OpenCV, MediaPipe, explainable AI</p></div>
+      <div><h3>Cloud (AWS)</h3><p>S3, Lambda, SES, IAM</p></div>
+      <div><h3>Programming</h3><p>Python, SQL</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="wrap edu">
+    <div>
+      <h3>Education</h3>
+      <ul>
+        <li>B.Tech Information Technology, 2023 to 2027<span>Sathyabama Institute of Science and Technology, Chennai. CGPA 9.23/10, First Class with Distinction. Chancellor Merit Scholarship since 2023.</span></li>
+      </ul>
+    </div>
+    <div>
+      <h3>Certifications</h3>
+      <ul>
+        <li>Power BI Data Analyst Associate (PL-300)<span>Microsoft</span></li>
+        <li>Data Analytics Professional Certificate<span>Google</span></li>
+        <li>OCI 2025 AI Foundations Associate<span>Oracle</span></li>
+        <li>Prompt Engineering Certification<span>MATLAB</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <h2>Looking for opportunities to start my career.</h2>
+    <p>I'm open to software testing, QA, API, and data roles. Email is the quickest way to reach me.</p>
+    <div class="links">
+      <a class="btn fill" href="mailto:nuhazahra.nzf@gmail.com">nuhazahra.nzf@gmail.com</a>
+      <a class="btn" href="tel:+917418834519">+91 74188 34519</a>
+    </div>
+    <p class="small">Chennai, Tamil Nadu, India</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var s=document.getElementById('conf'),v=document.getElementById('confVal'),
+      d=document.getElementById('verdict'),p=document.getElementById('payload');
+  function update(){
+    var c=parseFloat(s.value),ok=c>=0.75;
+    v.textContent=c.toFixed(2);
+    d.textContent=ok?'Accepted':'Flagged for human review';
+    var was=d.className;d.className='verdict '+(ok?'pass':'flag');if(was!==d.className){void d.offsetWidth;d.classList.add('bump');}
+    p.textContent='{\n  "ocr_confidence": '+c.toFixed(2)+',\n  "needs_review": '+(!ok)+'\n}';
+  }
+  var log=document.getElementById('log');
+  function record(){var c=parseFloat(s.value),ok=c>=0.75,li=document.createElement('li');li.className=ok?'pass':'flag';li.textContent=c.toFixed(2)+'  '+(ok?'accepted':'flagged for review');log.insertBefore(li,log.firstChild);while(log.children.length>4)log.removeChild(log.lastChild);}
+  s.addEventListener('input',update);s.addEventListener('change',record);
+  document.querySelectorAll('.chips button').forEach(function(b){b.addEventListener('click',function(){s.value=b.dataset.v;update();record();});});
+  update();record();
+
+  var root=document.documentElement,reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var h=document.querySelector('.hero h1'),txt=h.textContent.trim();
+  h.setAttribute('aria-label',txt);
+  h.innerHTML=txt.split(' ').map(function(w,i){return '<span class="w" aria-hidden="true"><span style="--i:'+i+'">'+w+'</span></span>';}).join(' ');
+
+  var tg=document.getElementById('tog');
+  function isDark(){var t=root.dataset.theme;return t?t==='dark':matchMedia('(prefers-color-scheme: dark)').matches;}
+  function label(){tg.textContent=isDark()?'Light mode':'Dark mode';}
+  tg.addEventListener('click',function(){root.dataset.theme=isDark()?'light':'dark';label();});label();
+
+  var pr=document.getElementById('prog');
+  function sp(){var m=root.scrollHeight-innerHeight;pr.style.transform='scaleX('+(m>0?Math.min(scrollY/m,1):0)+')';}
+  addEventListener('scroll',sp,{passive:true});sp();
+
+  function count(r){if(reduce)return;r.querySelectorAll('[data-to]').forEach(function(n){var to=parseFloat(n.dataset.to),dec=+n.dataset.dec||0,t0=null;function f(t){if(t0===null)t0=t;var p=Math.min((t-t0)/1100,1),v=to*(1-Math.pow(1-p,3));n.textContent=v.toLocaleString('en-US',{minimumFractionDigits:dec,maximumFractionDigits:dec});if(p<1)requestAnimationFrame(f);}n.textContent=(0).toFixed(dec);requestAnimationFrame(f);});}
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');count(e.target);io.unobserve(e.target);}});},{threshold:.15});
+    document.querySelectorAll('.case,.job,.skills>div,.edu>div').forEach(function(el){el.classList.add('rv');el.style.transitionDelay=(Array.prototype.indexOf.call(el.parentNode.children,el)%4*70)+'ms';io.observe(el);});
+    root.classList.add('js');
+  }
+})();
+</script>
+</body>
+</html>
